@@ -45,5 +45,16 @@ Regex-based per-chunk validation (before sending to LLM) can effectively block d
 | Injections in final prompt | ❌ None |
 
 ## Architecture
+Document → split_into_chunks(overlap=50) → per-chunk regex check ↓ safe chunks → assemble context ↓ full context re-check ↓ clean prompt → LLM
+## Tech Stack
+- Python 3.10+
+- `re` (regex)
+- No external dependencies
 
+## Run
 
+```bash
+python rag_pipeline.py
+
+Conclusion
+Regex patterns are effective as a first defense layer against direct injections in known languages. The chunk boundary bypass vulnerability is mitigated by two mechanisms: chunk overlap and full context re-validation. For protection against synonyms and obfuscation (e.g., "skip all directives"), a second layer is needed — semantic analysis or an LLM-based classifier.
